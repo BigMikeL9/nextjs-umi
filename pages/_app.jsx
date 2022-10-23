@@ -1,7 +1,18 @@
-import '../styles/globals.css'
+import { ThemeProvider } from "styled-components";
+import { GlobalStyles } from "../src/styles/GlobalStyles";
+import { lightTheme } from "../src/styles/Theme";
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
+const MyApp = ({ Component, pageProps }) => {
+  console.log(Component);
+  console.log(pageProps);
 
-export default MyApp
+  return (
+    <ThemeProvider theme={lightTheme}>
+      <GlobalStyles />
+
+      <Component {...pageProps} />
+    </ThemeProvider>
+  );
+};
+
+export default MyApp;

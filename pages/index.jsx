@@ -1,13 +1,17 @@
 import Head from "next/head";
 import Image from "next/image";
-import GameCard from "../components/GameCard/GameCard.jsx";
+import GameCard from "../src/components/GameCard/GameCard.jsx";
 
-import httpRequest from "../lib/httpRequest";
+import { API_KEY } from "../src/data/apiKey.js";
+import httpRequest from "../src/lib/httpRequest";
 
 const Home = (props) => {
   console.log(props);
+  // console.table(props.topTenGames);
 
-  // const { topTenGames } = props.topTenGames;
+  const { topTen_CurrentGames } = props;
+
+  console.log(topTen_CurrentGames);
 
   return (
     <>
@@ -18,7 +22,7 @@ const Home = (props) => {
       </Head>
 
       <main>
-        {props.topTenGames.map((gameData) => (
+        {topTen_CurrentGames?.map((gameData) => (
           <GameCard
             key={gameData.id}
             image={gameData.background_image}
@@ -46,13 +50,20 @@ const Home = (props) => {
 export default Home;
 
 export const getStaticProps = async () => {
+  const currentYear = new Date().getFullYear();
+
+  // Most popular games in current year
   const apiData = await httpRequest(
-    "https://api.rawg.io/api/games?key=7624d1052a1c4ec68b3300e9bb3f12e7"
+    `https://api.rawg.io/api/games?key=${API_KEY}&dates=${currentYear}-01-01,${currentYear}-12-31&ordering=-added`
   );
 
-  const topTenGames = apiData.results.slice(0, 10);
+  // const apiData = await httpRequest(
+  //   `https://api.rawg.io/api/games?key=${API_KEY}`
+  // );
+
+  const topTen_CurrentGames = apiData.results.slice(0, 10);
 
   return {
-    props: { topTenGames },
+    props: { topTen_CurrentGames },
   };
 };
