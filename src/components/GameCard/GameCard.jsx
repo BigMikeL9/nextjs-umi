@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 import {
@@ -6,16 +7,21 @@ import {
   CardImage,
   CardTitle,
   ImageContainer,
+  StyledLink,
 } from "./GameCard.style";
 
 const GameCard = (props) => {
   return (
     <CardContainer>
-      <ImageContainer>
-        <CardImage src={props.image} alt={props.name} />
-      </ImageContainer>
+      <Link href={`/${props.slug}`}>
+        <a>
+          <ImageContainer>
+            <CardImage src={props.image} alt={props.name} />
+          </ImageContainer>
 
-      <CardTitle>{props.name}</CardTitle>
+          <CardTitle>{props.name}</CardTitle>
+        </a>
+      </Link>
     </CardContainer>
   );
 };
