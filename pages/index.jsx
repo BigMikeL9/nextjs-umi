@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import GameCard from "../src/components/GameCard/GameCard.jsx";
 
-import { API_KEY } from "../src/data/apiKey.js";
+import { API_KEY } from "../src/data/constants.js";
 import httpRequest from "../src/lib/httpRequest";
 
 const Home = (props) => {
