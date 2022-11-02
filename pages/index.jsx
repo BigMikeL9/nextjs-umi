@@ -8,25 +8,29 @@ import GameCard from "../src/components/GameCard/GameCard.jsx";
 import GamesContainer from "../src/components/GamesContainer/GamesContainer.jsx";
 import SearchForm from "../src/components/Search/Search.jsx";
 
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { API_KEY } from "../src/data/constants.js";
 import httpRequest from "../src/lib/httpRequest";
 
 const Home = (props) => {
-  // console.log(props);
-  // console.table(props.topTenGames);
   const [searchResults, setSearchResults] = useState();
 
   const { topTen_CurrentGames } = props;
 
-  // console.log(topTen_CurrentGames);
-
   console.log(searchResults);
 
-  // --- get search results from 'Search.jsx' child component
-  const searchResultsHandler = (results) => {
+  // useEffect(() => {
+  //   first;
+
+  //   return () => {
+  //     second;
+  //   };
+  // }, [third]);
+
+  // ------ get search results from 'Search.jsx' child component
+  const searchResultsHandler = useCallback((results, searchInput) => {
     setSearchResults(results);
-  };
+  }, []);
 
   return (
     <>
@@ -43,15 +47,8 @@ const Home = (props) => {
 
         <h2></h2>
 
-        {searchResults?.length > 0 ? (
-          <GamesContainer games={searchResults} />
-        ) : (
-          <h3>No Games Found</h3>
-        )}
-
-        {searchResults?.length === 0 && (
-          <GamesContainer games={topTen_CurrentGames} />
-        )}
+        {!searchResults && <GamesContainer games={topTen_CurrentGames} />}
+        {searchResults && <GamesContainer games={searchResults} />}
       </main>
 
       <Footer />
