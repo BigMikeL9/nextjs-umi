@@ -2,18 +2,21 @@ import Link from "next/link";
 import styled from "styled-components";
 
 export const CardContainer = styled.article`
-  max-width: 20rem;
-  min-height: 30rem;
-
   position: relative;
 `;
 
 export const ImageContainer = styled.div`
-  height: 100%;
-  width: 100%;
+  /* height: 100%;
+  width: 100%; */
+  position: relative;
+  min-width: 20rem;
+  min-height: 30rem;
 `;
 
 export const CardImage = styled.img`
+  position: absolute;
+  inset: 0;
+
   object-fit: cover;
   height: 100%;
   width: 100%;

@@ -8,16 +8,16 @@ import GameCard from "../src/components/GameCard/GameCard.jsx";
 import GamesContainer from "../src/components/GamesContainer/GamesContainer.jsx";
 import SearchForm from "../src/components/Search/Search.jsx";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { API_KEY } from "../src/data/constants.js";
 import httpRequest from "../src/lib/httpRequest";
 
 const Home = (props) => {
   const [searchResults, setSearchResults] = useState();
+  const [searchInput, setSearchInput] = useState();
 
+  console.log("RENDERED");
   const { topTen_CurrentGames } = props;
-
-  console.log(searchResults);
 
   // useEffect(() => {
   //   first;
@@ -30,7 +30,25 @@ const Home = (props) => {
   // ------ get search results from 'Search.jsx' child component
   const searchResultsHandler = useCallback((results, searchInput) => {
     setSearchResults(results);
+    setSearchInput(searchInput);
   }, []);
+
+  // ------
+  let gamesContent = [];
+  console.log(searchResults);
+  console.log(searchInput);
+
+  // if there are search results
+  if (searchResults && searchInput.length !== 0)
+    gamesContent = <GamesContainer games={searchResults} />;
+
+  // if no results found  ->  show message
+  if (searchResults?.length === 0 && searchInput.length !== 0)
+    gamesContent = <p>No Games Found!!</p>;
+
+  // if there are no search results  ->  show popular TOP TEN games this year
+  if (!searchResults || searchInput.length === 0)
+    gamesContent = <GamesContainer games={topTen_CurrentGames} />;
 
   return (
     <>
@@ -47,8 +65,7 @@ const Home = (props) => {
 
         <h2></h2>
 
-        {!searchResults && <GamesContainer games={topTen_CurrentGames} />}
-        {searchResults && <GamesContainer games={searchResults} />}
+        {gamesContent}
       </main>
 
       <Footer />

@@ -14,14 +14,14 @@ const SearchForm = (props) => {
   // --------------------------------
   // DEBOUNCING
   useEffect(() => {
-    if (enteredValue.length === 0) return;
+    // if (enteredValue.length === 0) return;
 
     const runLater = setTimeout(async () => {
       const data = await httpRequest(
-        `https://api.rawg.io/api/games?key=7624d1052a1c4ec68b3300e9bb3f12e7&search="${enteredValue}"&search_precise=true&search_exact=true&ordering=-released&ordering=-metacritic`
+        `https://api.rawg.io/api/games?key=7624d1052a1c4ec68b3300e9bb3f12e7&search="${enteredValue}"&page_size=20&page=1`
       );
 
-      onSearchResults(data.results, enteredValue);
+      https: onSearchResults(data.results, enteredValue);
     }, 400);
 
     return () => {
@@ -33,13 +33,21 @@ const SearchForm = (props) => {
   const onChangeHandler = (event) => {
     setEnteredValue(event.target.value);
 
-    console.log(router);
+    // console.log(router);
 
     // -- Push search input value to URL as a query Parameter
-    router.push({
-      pathname: `${router.pathname}`,
-      query: { search: encodeURI(event.target.value) },
-    });
+
+    if (event.target.value)
+      router.replace({
+        pathname: `${router.pathname}`,
+        query: { search: encodeURI(event.target.value) },
+      });
+
+    if (!event.target.value)
+      router.replace({
+        pathname: `${router.pathname}`,
+        query: {},
+      });
   };
 
   // --------------------------------
