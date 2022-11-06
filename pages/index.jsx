@@ -89,7 +89,7 @@ export const getStaticProps = async () => {
     `https://api.rawg.io/api/games?key=${API_KEY}&dates=${currentYear}-01-01,${currentYear}-12-31&ordering=-added`
   );
 
-  const topTen_CurrentGames = apiData.results.slice(0, 10);
+  const topTen_CurrentGames = apiData.results.slice(0, 5);
 
   return {
     props: { topTen_CurrentGames },
