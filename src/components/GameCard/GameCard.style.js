@@ -6,8 +6,7 @@ export const CardContainer = styled.article`
 `;
 
 export const ImageContainer = styled.div`
-  /* height: 100%;
-  width: 100%; */
+  
   position: relative;
   min-width: 20rem;
   min-height: 30rem;

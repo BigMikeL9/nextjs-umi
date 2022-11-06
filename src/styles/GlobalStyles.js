@@ -65,20 +65,25 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     body {
-      ${"" /* TODO Choose cool ALL-CAPS font */}
       font-family: sans-serif;
       font-size: max(13px, 1.6rem);
       text-size-adjust: 100%;
       overflow-x: hidden;
       font-weight: 400;
       line-height: 1.5; 
-      min-height: 100vh;
+     
 
       color: ${({ theme }) => theme.colors.primary};
-      background-image: ${({ theme }) => theme.backgrounds.body};
+      background-image: ${({ theme }) => theme.backgrounds.body};    
     }
 
-    
+    #__next {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  
     article,
     aside,
     details,
@@ -91,6 +96,10 @@ export const GlobalStyles = createGlobalStyle`
     nav,
     section {
       display: block;
+    }
+
+    main {
+      flex: 1;
     }
 
     h1,
