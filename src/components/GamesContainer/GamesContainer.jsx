@@ -4,10 +4,11 @@ import GameCard from "../GameCard/GameCard";
 import { Container } from "./GamesContainer.style";
 
 const GamesContainer = (props) => {
+  console.log(props);
   return (
     <Container>
-      {props.games.length > 0 &&
-        props.games?.map((gameData) => (
+      {props.games &&
+        props.games.map((gameData) => (
           <GameCard
             key={gameData.id}
             slug={gameData.slug}

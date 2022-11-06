@@ -15,8 +15,7 @@ import httpRequest from "../src/lib/httpRequest";
 const Home = (props) => {
   const router = useRouter();
   const [searchResults, setSearchResults] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
-  const [isFetching, setIsFetching] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { topTen_CurrentGames } = props;
   const { query } = router;
@@ -24,38 +23,30 @@ const Home = (props) => {
   const searchQuery = query.search;
 
   // ------------------------------------
-  const fetchGamesHandler = useCallback(async () => {
-    setIsFetching(true);
+  const fetchGamesHandler = useCallback(async (searchValue) => {
+    setIsLoading(true);
 
     const data = await httpRequest(
-      `https://api.rawg.io/api/games?key=7624d1052a1c4ec68b3300e9bb3f12e7&search="${searchQuery}"&page_size=20&page=1`
+      `https://api.rawg.io/api/games?key=7624d1052a1c4ec68b3300e9bb3f12e7&search="${searchValue}"&page_size=20&page=1`
     );
 
     setSearchResults(data.results);
 
-    setIsFetching(false);
-  }, [searchQuery]);
-
-  // ------------------------------------
-  useEffect(() => {
-    if (!searchQuery) return;
-    fetchGamesHandler();
-  }, [searchQuery, fetchGamesHandler]);
-
-  // ------------------------------------
-  // ------ get search results from 'Search.jsx' child component
-  const searchResultsHandler = useCallback((results, searchInput) => {
-    setSearchResults(results);
-    setSearchInput(searchInput);
+    setIsLoading(false);
   }, []);
+
+  // ------------------------------------
+  // if URL has search parameter  ->  fetch games
+  useEffect(() => {
+    if (searchQuery) fetchGamesHandler(searchQuery);
+  }, [searchQuery, fetchGamesHandler]);
 
   // ------------------------------------
   let content = <h2>No Games Found!!</h2>;
 
-  if (isFetching) content = <h2>LOADING</h2>;
+  if (isLoading) content = <h2>LOADING</h2>;
 
-  // if there are no search results  ->  show popular TOP TEN games this year
-  if (!searchQuery && searchResults?.length === 0 && searchInput?.length === 0)
+  if (!searchQuery)
     content = (
       <>
         <h2> Most Popular Games NOW</h2>
@@ -64,23 +55,8 @@ const Home = (props) => {
     );
 
   // if there are search results
-  if (searchResults?.length > 0 && searchInput?.length > 1)
-    content = (
-      <>
-        <h2>{searchInput}</h2>
-        <GamesContainer games={searchResults} />
-      </>
-    );
-
-  // if no results found  ->  show message
-  // if (searchResults?.length === 0 && searchInput?.length !== 0)
-  //   content = (
-  //     <>
-
-  //     </>
-  //   );
-
-  console.log(searchResults);
+  if (searchResults?.length > 0)
+    content = <GamesContainer games={searchResults} />;
 
   // ------------------------------------
 
@@ -93,7 +69,7 @@ const Home = (props) => {
       />
 
       <main>
-        <SearchForm onSearchResults={searchResultsHandler} />
+        <SearchForm fetchGames={fetchGamesHandler} />
 
         {content}
       </main>
