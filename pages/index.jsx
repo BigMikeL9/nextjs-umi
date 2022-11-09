@@ -10,41 +10,64 @@ import SearchForm from "../src/components/Search/Search.jsx";
 
 import { useCallback, useEffect, useState } from "react";
 import { API_KEY } from "../src/data/constants.js";
-import httpRequest from "../src/lib/httpRequest";
+import useFetch from "../src/hooks/useFetch.jsx";
+import httpRequest from "../src/utility/httpRequest";
 
 const Home = (props) => {
   const router = useRouter();
   const [searchResults, setSearchResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   const { topTen_CurrentGames } = props;
   const { query } = router;
 
   const searchQuery = query.search;
 
-  // ------------------------------------
-  const fetchGamesHandler = useCallback(async (searchValue) => {
-    setIsLoading(true);
+  const { fetchData, isLoading, error } = useFetch();
 
-    const data = await httpRequest(
-      `https://api.rawg.io/api/games?key=7624d1052a1c4ec68b3300e9bb3f12e7&search="${searchValue}"&page_size=20&page=1`
+  // ------------------------------------
+
+  const getSearchResults = useCallback(async (data) => {
+    const transformedData = {
+      count: data?.count,
+      games: data?.results,
+    };
+
+    setSearchResults(transformedData.games);
+  }, []);
+
+  // ------------------------------------
+  const refetchData = useCallback(async () => {
+    const data = await fetchData(
+      `https://api.rawg.io/api/games?key=7624d1052a1c4ec68b3300e9bb3f12e7&search="${searchQuery}"&page_size=20&page=1`
     );
 
     setSearchResults(data.results);
-
-    setIsLoading(false);
-  }, []);
+  }, [fetchData, searchQuery]);
 
   // ------------------------------------
   // if URL has search parameter  ->  fetch games
   useEffect(() => {
-    if (searchQuery) fetchGamesHandler(searchQuery);
-  }, [searchQuery, fetchGamesHandler]);
+    if (!searchQuery) return;
+    refetchData();
+  }, [searchQuery, refetchData]);
 
   // ------------------------------------
   let content = <h2>No Games Found!!</h2>;
 
   if (isLoading) content = <h2>LOADING</h2>;
+
+  if (error)
+    content = (
+      <>
+        <h2>{error}</h2> <button onClick={refetchData}>Try Again!!</button>
+      </>
+    );
+
+  console.log(searchResults);
+
+  // if there are search results
+  if (searchResults?.length > 0)
+    content = <GamesContainer games={searchResults} />;
 
   if (!searchQuery)
     content = (
@@ -53,10 +76,6 @@ const Home = (props) => {
         <GamesContainer games={topTen_CurrentGames} />
       </>
     );
-
-  // if there are search results
-  if (searchResults?.length > 0)
-    content = <GamesContainer games={searchResults} />;
 
   // ------------------------------------
 
@@ -69,7 +88,12 @@ const Home = (props) => {
       />
 
       <main>
-        <SearchForm fetchGames={fetchGamesHandler} />
+        <SearchForm
+          fetchData={fetchData}
+          isLoading={isLoading}
+          error={error}
+          onSearchResults={getSearchResults}
+        />
 
         {content}
       </main>
@@ -86,12 +110,13 @@ export const getStaticProps = async () => {
 
   // Most popular games in current year
   const apiData = await httpRequest(
-    `https://api.rawg.io/api/games?key=${API_KEY}&dates=${currentYear}-01-01,${currentYear}-12-31&ordering=-added`
+    `https://api.rawg.io/api/games?key=${API_KEY}&dates=${currentYear}-01-01,${currentYear}-12-31`
   );
 
-  const topTen_CurrentGames = apiData.results.slice(0, 5);
+  const topTen_CurrentGames = apiData.results.slice(0, 6);
 
   return {
     props: { topTen_CurrentGames },
+    revalidate: 3600, // In seconds
   };
 };

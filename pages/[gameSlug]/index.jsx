@@ -1,44 +1,37 @@
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
-import httpRequest from "../../src/lib/httpRequest";
+import useFetch from "../../src/hooks/useFetch";
 
 const GameDetailPage = () => {
   const router = useRouter();
   const [gameData, setGameData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const { gameSlug } = router.query;
 
-  // ------------------------------------------------------
-  const fetchGameData = useCallback(async () => {
-    setIsLoading(true);
-
-    const data = await httpRequest(
-      `https://api.rawg.io/api/games/${gameSlug}?key=7624d1052a1c4ec68b3300e9bb3f12e7`
-    );
-
-    const transformedData = Object.entries(data).map((dataItem) => {
-      const key = dataItem[0];
-      const value = dataItem[1];
-
-      return {
-        key,
-        value,
-      };
-    });
-
-    // console.log(transformedData);
-
-    setGameData(transformedData);
-
-    setIsLoading(false);
-  }, [gameSlug]);
+  const { fetchData, isLoading, error } = useFetch();
 
   // ------------------------------------------------------
   useEffect(() => {
     if (!gameSlug) return;
-    fetchGameData();
-  }, [gameSlug, fetchGameData]);
+
+    const fetch = async () => {
+      const data = await fetchData(
+        `https://api.rawg.io/api/games/${gameSlug}?key=7624d1052a1c4ec68b3300e9bb3f12e7`
+      );
+
+      const transformedData = Object.entries(data).map((el) => {
+        const key = el[0];
+        const value = el[1];
+
+        return { key, value };
+      });
+
+      setGameData(transformedData);
+    };
+
+    fetch();
+  }, [gameSlug, fetchData]);
 
   // ------------------------------------------------------
   let content = gameSlug;

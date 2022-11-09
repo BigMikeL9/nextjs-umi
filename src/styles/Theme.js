@@ -10,19 +10,6 @@ export const lightTheme = {
   },
 
   backgrounds: {
-    body: "linear-gradient(to bottom, #072142, #061c37, #07182b, #061220, #020b16);",
-
-    hero: "linear-gradient(to bottom, #072142, #061c37, #07182b, #061220, #020b16);",
-
-    works:
-      "linear-gradient(to bottom, #020b16, #061220, #07182b, #061c37, #072142);",
-
-    contact:
-      "linear-gradient(to bottom, #020b16, #061220, #07182b, #061c37, #072142);",
-
-    about:
-      "linear-gradient(to bottom, #072142, #061c37, #07182b, #061220, #020b16);",
-
-    detailPage_Hero: "#020b16",
+    body: "linear-gradient(238deg, rgb(227, 154, 54) 0%, rgb(158, 38, 101) 100%);",
   },
 };

@@ -1,8 +1,6 @@
 import { useRouter } from "next/router.js";
 import React, { useEffect, useState } from "react";
 
-import httpRequest from "../../lib/httpRequest";
-
 import { Control, Form, Input } from "./Search.style";
 
 const SearchForm = (props) => {
@@ -10,7 +8,7 @@ const SearchForm = (props) => {
   const [enteredValue, setEnteredValue] = useState("");
   const [isTouched, setIsTouched] = useState(false);
 
-  const { fetchGames } = props;
+  const { fetchData, onSearchResults } = props;
 
   // --------------------------------
   // DEBOUNCING
@@ -19,13 +17,17 @@ const SearchForm = (props) => {
     if (enteredValue.length === 0) return;
 
     const runLater = setTimeout(async () => {
-      fetchGames(enteredValue);
+      const data = await fetchData(
+        `https://api.rawg.io/api/games?key=7  624d1052a1c4ec68b3300e9bb3f12e7&search="${enteredValue}"&page_size=20&page=1`
+      );
+
+      onSearchResults(data);
     }, 400);
 
     return () => {
       clearTimeout(runLater);
     };
-  }, [enteredValue, fetchGames, isTouched]);
+  }, [enteredValue, isTouched, fetchData, onSearchResults]);
 
   // --------------------------------
   const onChangeHandler = (event) => {
