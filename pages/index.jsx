@@ -63,7 +63,7 @@ const Home = (props) => {
       </>
     );
 
-  console.log(searchResults);
+  // console.log(searchResults);
 
   // if there are search results
   if (searchResults?.length > 0)
