@@ -10,6 +10,7 @@ export const lightTheme = {
   },
 
   backgrounds: {
-    body: "linear-gradient(238deg, rgb(227, 154, 54) 0%, rgb(158, 38, 101) 100%);",
+    html: "linear-gradient(238deg, rgb(227, 154, 54) 0%, rgb(158, 38, 101) 100%);",
+    body: "linear-gradient(transparent 0%, transparent 30%, rgba(45, 49, 66, 0.92) 75%, rgb(45, 49, 66) 100%)",
   },
 };

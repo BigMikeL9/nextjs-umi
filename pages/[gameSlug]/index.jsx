@@ -1,15 +1,18 @@
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import useFetch from "../../src/hooks/useFetch";
+import PageHead from "../../src/layout/Head/Head";
 
 const GameDetailPage = () => {
   const router = useRouter();
   const [gameData, setGameData] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
 
   const { gameSlug } = router.query;
 
   const { fetchData, isLoading, error } = useFetch();
+
+  // console.log(gameData);
 
   // ------------------------------------------------------
   useEffect(() => {
@@ -20,12 +23,29 @@ const GameDetailPage = () => {
         `https://api.rawg.io/api/games/${gameSlug}?key=7624d1052a1c4ec68b3300e9bb3f12e7`
       );
 
-      const transformedData = Object.entries(data).map((el) => {
-        const key = el[0];
-        const value = el[1];
+      console.log(data);
 
-        return { key, value };
-      });
+      const transformedData = {
+        id: data.id,
+        slug: data.slug,
+        name: data.name,
+        description: data.description,
+        description_raw: data.description_raw,
+        genres: data.genres,
+        tag: data.tags,
+        developers: data.developers,
+        rating: data.rating,
+        released: data.released,
+        website: data.website,
+        lastUpdated: data.updated,
+        metacritic_score: data.metacritic,
+        metacritic_url: data.metacritic_url,
+        esrb_rating: data.esrb_rating,
+        background_image: data.background_image,
+        background_image_additional: data.background_image_additional,
+      };
+
+      console.log(transformedData);
 
       setGameData(transformedData);
     };
@@ -34,22 +54,41 @@ const GameDetailPage = () => {
   }, [gameSlug, fetchData]);
 
   // ------------------------------------------------------
-  let content = gameSlug;
+  let content;
 
-  if (isLoading) content = <h2>Loading</h2>;
+  if (isLoading) content = <h2>LOADING</h2>;
 
-  const gameDetails = gameData.map((game, i) => (
-    <div key={i}>
-      <span>{game.key} ---------- </span>
-      <span>{typeof game.value !== "object" && game.value}</span>
-    </div>
-  ));
+  if (!isLoading)
+    content = (
+      <>
+        <div style={{ width: "100vw", height: "50vh", position: "relative" }}>
+          <Image
+            src={gameData.background_image}
+            alt={`Image of the game ${gameData.name}`}
+            layout="fill"
+            objectFit="contain"
+          />
+        </div>
 
-  console.log(gameDetails);
+        <h2>{gameData.name}</h2>
+        <p>{gameData.description_raw}</p>
+      </>
+    );
 
-  if (gameDetails.length > 1) content = gameDetails;
+  return (
+    <>
+      <PageHead
+        title={`UMI | ${gameData.name}`}
+        meta_Description={gameData.description_raw?.replaceAll("\n", "")}
+        og_URL={`https://www.umi.com/${gameData.slug}`}
+        og_Image={gameData.background_image}
+      />
 
-  return <div>{content}</div>;
+      {content}
+    </>
+  );
 };
 
 export default GameDetailPage;
+
+// TODO prerender each of the most Popular games detail pages during build process 'getStaticProps' & 'getStaticPaths'

@@ -87,7 +87,7 @@ const Home = (props) => {
         og_URL="www.umi.com"
       />
 
-      <main>
+      <>
         <SearchForm
           fetchData={fetchData}
           isLoading={isLoading}
@@ -96,7 +96,7 @@ const Home = (props) => {
         />
 
         {content}
-      </main>
+      </>
     </>
   );
 };

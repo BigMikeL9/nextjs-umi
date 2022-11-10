@@ -30,19 +30,9 @@ export const GlobalStyles = createGlobalStyle`
       position: relative;
       ${"" /* scroll-behavior: smooth; */}
       
-      background-image: ${({ theme }) => theme.backgrounds.body};
+      background-image: ${({ theme }) => theme.backgrounds.html};   
 
-      ${
-        "" /* &:after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(transparent 0%, transparent 30%, rgba(45, 49, 66, 0.92) 65%, rgb(45, 49, 66) 100%);
-      } */
-      }
-
+      ${"" /* ${console.log(props)}  */}
       
       // 'max-width: 1200px'
       @media ${devices.laptop} {
@@ -84,7 +74,7 @@ export const GlobalStyles = createGlobalStyle`
      
 
       color: ${({ theme }) => theme.colors.primary};
-      background-image: ${({ theme }) => theme.backgrounds.body};    
+       background: ${({ theme }) => theme.backgrounds.body};
     }
 
     #__next {
