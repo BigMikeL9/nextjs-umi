@@ -5,10 +5,10 @@ const useFetch = () => {
   const [error, setError] = useState(null);
 
   const fetchData = useCallback(async (URL) => {
-    setIsLoading(true);
-    setError(null);
-
     try {
+      setIsLoading(true);
+      setError(null);
+
       const response = await fetch(URL);
 
       if (!response.ok) throw new Error("Something went wrong!!");
@@ -21,8 +21,9 @@ const useFetch = () => {
       console.log(error.message);
       console.log(error.cause);
       setError(error.message || `Something went Wong!!`);
-      setIsLoading(false);
     }
+
+    setIsLoading(false);
   }, []);
 
   return { fetchData, isLoading, error };

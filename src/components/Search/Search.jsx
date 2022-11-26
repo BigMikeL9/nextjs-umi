@@ -18,7 +18,7 @@ const SearchForm = (props) => {
 
     const runLater = setTimeout(async () => {
       const data = await fetchData(
-        `https://api.rawg.io/api/games?key=7  624d1052a1c4ec68b3300e9bb3f12e7&search="${enteredValue}"&page_size=20&page=1`
+        `https://api.rawg.io/api/games?key=7624d1052a1c4ec68b3300e9bb3f12e7&search="${enteredValue}"&page_size=20&page=1`
       );
 
       onSearchResults(data);

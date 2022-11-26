@@ -24,6 +24,8 @@ const Home = (props) => {
 
   const { fetchData, isLoading, error } = useFetch();
 
+  console.log(error);
+
   // ------------------------------------
 
   const getSearchResults = useCallback(async (data) => {
@@ -41,7 +43,7 @@ const Home = (props) => {
       `https://api.rawg.io/api/games?key=7624d1052a1c4ec68b3300e9bb3f12e7&search="${searchQuery}"&page_size=20&page=1`
     );
 
-    setSearchResults(data.results);
+    if (data) setSearchResults(data.results);
   }, [fetchData, searchQuery]);
 
   // ------------------------------------
@@ -63,12 +65,13 @@ const Home = (props) => {
       </>
     );
 
-  console.log(searchResults);
+  // console.log(searchResults);
 
   // if there are search results
   if (searchResults?.length > 0)
     content = <GamesContainer games={searchResults} />;
 
+  // show most popular game now
   if (!searchQuery)
     content = (
       <>
