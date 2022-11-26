@@ -72,9 +72,8 @@ export const GlobalStyles = createGlobalStyle`
       font-weight: 400;
       line-height: 1.5; 
      
-
       color: ${({ theme }) => theme.colors.primary};
-       background: ${({ theme }) => theme.backgrounds.body};
+      background: ${({ theme }) => theme.backgrounds.body};
     }
 
     #__next {
