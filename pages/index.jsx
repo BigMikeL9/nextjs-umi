@@ -24,8 +24,6 @@ const Home = (props) => {
 
   const { fetchData, isLoading, error } = useFetch();
 
-  console.log(error);
-
   // ------------------------------------
 
   const getSearchResults = useCallback(async (data) => {

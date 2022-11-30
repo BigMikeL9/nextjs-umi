@@ -4,7 +4,7 @@ import GameCard from "../GameCard/GameCard";
 import { Container } from "./GamesContainer.style";
 
 const GamesContainer = (props) => {
-  // console.log(props);
+  console.log(props);
 
   return (
     <Container>
