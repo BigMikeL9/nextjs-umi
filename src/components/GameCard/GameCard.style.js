@@ -3,12 +3,15 @@ import styled from "styled-components";
 
 export const CardContainer = styled.article`
   position: relative;
+  min-width: 20rem;
+  min-height: 30rem;
+  max-height: 30rem;
 `;
 
 export const ImageContainer = styled.div`
   position: relative;
-  min-width: 20rem;
-  min-height: 30rem;
+  height: 100%;
+  width: 100%;
 `;
 
 export const CardImage = styled.img`

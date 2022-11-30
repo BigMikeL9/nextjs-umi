@@ -29,8 +29,19 @@ export const GlobalStyles = createGlobalStyle`
       overflow-x: hidden;
       position: relative;
       ${"" /* scroll-behavior: smooth; */}
+
+      &:after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        z-index: -10;
+        pointer-events: none;
+        background-image: ${({ theme }) => theme.backgrounds.html};   
+      }
       
-      background-image: ${({ theme }) => theme.backgrounds.html};   
 
       ${"" /* ${console.log(props)}  */}
       
@@ -73,7 +84,19 @@ export const GlobalStyles = createGlobalStyle`
       line-height: 1.5; 
      
       color: ${({ theme }) => theme.colors.primary};
-      background: ${({ theme }) => theme.backgrounds.body};
+
+      &:after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        z-index: -1;
+        pointer-events: none;
+        background-image: ${({ theme }) => theme.backgrounds.body};   
+      }
+    
     }
 
     #__next {

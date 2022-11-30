@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 
 const useOnScrollReachBottom = (action, hasNextPage) => {
-  console.log(hasNextPage);
-
   useEffect(() => {
     if (!hasNextPage) return;
 
@@ -15,7 +13,6 @@ const useOnScrollReachBottom = (action, hasNextPage) => {
       if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.2) {
         fetching = true;
 
-        console.log(hasNextPage);
         if (hasNextPage) await action();
 
         fetching = false;
