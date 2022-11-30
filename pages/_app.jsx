@@ -1,3 +1,5 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "styled-components";
 import Footer from "../src/layout/Footer/Footer.jsx";
 import Header from "../src/layout/Header/Header.jsx";
@@ -9,18 +11,24 @@ const MyApp = ({ Component, pageProps }) => {
   // console.log(Component);
   // console.log(pageProps);
 
+  // Create a React query client
+  const queryClient = new QueryClient();
+
   return (
-    <ThemeProvider theme={lightTheme}>
-      <GlobalStyles />
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={lightTheme}>
+        <GlobalStyles />
 
-      <Header />
+        <Header />
 
-      <Main>
-        <Component {...pageProps} />
-      </Main>
+        <Main>
+          <Component {...pageProps} />
+        </Main>
 
-      <Footer />
-    </ThemeProvider>
+        <Footer />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 };
 

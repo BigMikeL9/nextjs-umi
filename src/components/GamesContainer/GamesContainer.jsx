@@ -11,10 +11,10 @@ const GamesContainer = (props) => {
       {props.games &&
         props.games.map((gameData) => (
           <GameCard
-            key={gameData.id}
-            slug={gameData.slug}
-            image={gameData.background_image}
-            name={gameData.name}
+            key={gameData?.id}
+            slug={gameData?.slug}
+            image={gameData?.background_image}
+            name={gameData?.name}
           />
         ))}
     </Container>
