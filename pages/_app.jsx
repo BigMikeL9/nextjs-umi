@@ -1,6 +1,6 @@
+import { ThemeProvider } from "@emotion/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { ThemeProvider } from "styled-components";
 import Footer from "../src/layout/Footer/Footer.jsx";
 import Header from "../src/layout/Header/Header.jsx";
 import Main from "../src/layout/Main/Main.jsx";

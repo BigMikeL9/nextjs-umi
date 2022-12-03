@@ -1,4 +1,4 @@
-import styled from "styled-components/macro";
+import styled from "@emotion/styled";
 import devices from "./Devices";
 
 export const H1 = styled.h1`

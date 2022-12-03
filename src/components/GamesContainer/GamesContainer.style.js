@@ -1,5 +1,4 @@
-import styled from "styled-components";
-
+import styled from "@emotion/styled";
 export const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, 20rem);
