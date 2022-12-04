@@ -9,7 +9,7 @@ const GamesContainer = (props) => {
   return (
     <Container>
       {props.games &&
-        props.games.map((gameData) => (
+        props.games.map((gameData, index) => (
           <GameCard
             key={gameData?.id}
             slug={gameData?.slug}
