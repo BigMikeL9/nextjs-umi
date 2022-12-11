@@ -9,9 +9,9 @@ const GamesContainer = (props) => {
   return (
     <Container>
       {props.games &&
-        props.games.map((gameData) => (
+        props.games.map((gameData, index) => (
           <GameCard
-            key={gameData?.id}
+            key={`${gameData?.id}${index}`}
             slug={gameData?.slug}
             image={gameData?.background_image}
             name={gameData?.name}

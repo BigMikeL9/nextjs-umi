@@ -4,6 +4,7 @@ import { useRouter } from "next/router.js";
 import Footer from "../src/layout/Footer/Footer.jsx";
 import PageHead from "../src/layout/Head/Head.jsx";
 import Header from "../src/layout/Header/Header.jsx";
+import { H1 } from "../src/styles/Typography.js";
 
 import GamesContainer from "../src/components/GamesContainer/GamesContainer.jsx";
 import SearchForm from "../src/components/Search/Search.jsx";
@@ -89,6 +90,8 @@ const Home = (props) => {
       />
 
       <>
+        <H1 mb={"10rem"}>TESTTTT TITLE</H1>
+
         <SearchForm
           fetchData={fetchData}
           isLoading={isLoading}
@@ -107,11 +110,16 @@ export default Home;
 // ------------------------------------------------------------------------
 // ------------------------------------------------------------------------
 export const getStaticProps = async () => {
-  const currentYear = new Date().getFullYear();
+  // const currentYear = new Date().getFullYear();
 
   // Most popular games in current year
+  // const apiData = await httpRequest(
+  //   `https://api.rawg.io/api/games?key=${API_KEY}&dates=${currentYear}-01-01,${currentYear}-12-31`
+  // );
+
+  // All time top 250
   const apiData = await httpRequest(
-    `https://api.rawg.io/api/games?key=${API_KEY}&dates=${currentYear}-01-01,${currentYear}-12-31`
+    `https://rawg.io/api/games/lists/popular?discover=true&&page_size=20&page=1&key=${API_KEY}`
   );
 
   const topTen_CurrentGames = apiData.results.slice(0, 6);

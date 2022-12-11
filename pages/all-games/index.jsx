@@ -1,25 +1,49 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { QueryClient, useInfiniteQuery } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import GamesContainer from "../../src/components/GamesContainer/GamesContainer";
 import SortDropdown from "../../src/components/UI/SortDropdown/SortDropdown";
 import { API_KEY } from "../../src/data/constants";
+import { fetchAllGames, PAGE_SIZE } from "../../src/fetchers/fetchGames";
 import useOnScrollReachBottom from "../../src/hooks/useOnScrollReachBottom";
 import PageHead from "../../src/layout/Head/Head";
 
-const PAGE_SIZE = 20;
-
-const fetchAllGames = async (pageNumber, sortBy) => {
-  const response = await fetch(
-    `https://rawg.io/api/games/lists/main?discover=true&ordering=-${sortBy}&page_size=${PAGE_SIZE}&page=${pageNumber}&key=${API_KEY}`
-  );
-
-  const data = await response.json();
-
-  return data;
-};
-
 const AllGamesPage = () => {
   const [sortBy, setSortBy] = useState("relevance");
+
+  console.log(sortBy);
+
+  /* 
+  Sort by API options: 
+
+  - relevance
+  - released 
+  - created
+  - name
+  - added
+  - rating
+
+
+   ---- NEW RELEASES ---- 
+  - Last 30 Days 👇
+    https://rawg.io/api/games/lists/recent-games-past?discover=true&ordering=-added&page_size=20&page=1&key=${API_KEY}
+
+  - This week 
+    https://rawg.io/api/games/lists/recent-games?discover=true&ordering=-added&page_size=20&page=1&key=${API_KEY}
+
+
+  ---- TOP ----
+  - Best of the Year
+    https://rawg.io/api/games/lists/greatest?discover=true&ordering=-added&page_size=20&page=1&key=${API_KEY}
+
+  - Popular in 2021
+    https://rawg.io/api/games/lists/greatest?year=2021&discover=true&ordering=-added&page_size=20&page=1&key=${API_KEY}
+
+  - All time top 250
+    https://rawg.io/api/games/lists/popular?discover=true&&page_size=20&page=1&key=${API_KEY}
+
+
+
+  */
 
   // ------------------------------
   // const {
@@ -61,13 +85,19 @@ const AllGamesPage = () => {
 
   // ------------------------------
   // get sortBy value from dropdown on change
-  const sortChangeHandler = (sortByValue) => {
+  const sortChangeHandler = async (sortByValue) => {
+    console.log(sortByValue);
     setSortBy(sortByValue);
+
+    // TODO: Find a way to instantly update the games list when sot value changes.
   };
 
   // ------------------------------
   let games = [];
-  if (isSuccess) games = data?.pages.map((page) => page.results).flat();
+  if (isSuccess) {
+    games = data?.pages.map((page) => page.results).flat();
+    console.log(games);
+  }
 
   // ------------------------------
   // Load more games as we reach bottom of GamesContainer
