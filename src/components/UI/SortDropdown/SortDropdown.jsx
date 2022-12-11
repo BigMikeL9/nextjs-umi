@@ -1,10 +1,17 @@
+import { useRouter } from "next/router";
 import React from "react";
 
 const SortDropdown = (props) => {
+  const router = useRouter();
   const { onSortChange } = props;
 
   const onChangeHandler = (event) => {
     onSortChange(event.target.value);
+
+    router.replace({
+      pathname: `${router.pathname}`,
+      query: { sortBy: event.target.value },
+    });
   };
 
   return (

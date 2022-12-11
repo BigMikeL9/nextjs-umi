@@ -12,6 +12,8 @@ const AllGamesPage = () => {
 
   console.log(sortBy);
 
+  const queryClient = new QueryClient();
+
   /* 
   Sort by API options: 
 
@@ -63,6 +65,7 @@ const AllGamesPage = () => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
+    refetch,
   } = useInfiniteQuery({
     queryKey: ["allGames"],
     queryFn: ({ pageParam = 1 }) => fetchAllGames(pageParam, sortBy),
@@ -90,6 +93,7 @@ const AllGamesPage = () => {
     setSortBy(sortByValue);
 
     // TODO: Find a way to instantly update the games list when sot value changes.
+    // refetch({ refetchPage: (page, index) => index === 0 });
   };
 
   // ------------------------------
